@@ -25,10 +25,13 @@ function displayBooks(books) {
     var $li = $('<li></li>');
 
     $li.append('<p><strong>' + book.title + '</strong></p>');
-    $li.append('<p><em>' + book.author + '</em></p>');
+    $li.append('<p>Written by: <em>' + book.author + '</em></p>');
 
     var date = new Date(book.publication_date).toDateString();
-    $li.append('<p><time>' + date + '</time></p>');
+    $li.append('<p>Publication Date: <time>' + date + '</time></p>');
+
+    $li.append('<p> Edition: ' + book.edition + '</p>');
+    $li.append('<p> Published by: ' + book.publisher + '</p>');
 
     $('#book-list').append($li);
   });
