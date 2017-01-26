@@ -74,4 +74,56 @@ router.post("/", function(req, res) {
   });
 });
 
+// localhost:3000/books/4
+// req.params.id === '4'
+// PUT to update a book?
+router.put('/:id', function (req, res) {
+  pool.connect (function (err, client, done) { // done is the function we run after it is done.
+    if (err) {
+      console.log('Error connecting to DB', err);
+      res.sendStatus(500);
+      done();
+    } else {
+      client.query( 'UPDATE books SET title=$2, author=$3, publication_date=$4, edition=$5, publisher=$6 WHERE id = $1 RETURNING *',  [req.params.id, req.body.title, req.body.author, req.body.published, req.body.edition, req.body.publisher], function (err, result) {
+        if (err) {
+          console.log('error querying DB', err);
+          res.sendStatus(500);
+        } else {
+          console.log('updated');
+          res.send(result.rows);
+        };
+        done(); // gives the connection back to the db
+      });
+    };
+  });
+});
+
+// localhost:3000/books/4
+// req.params.id === '4'
+// deleting a book
+router.delete('/:id', function (req, res) {
+
+  pool.connect (function (err, client, done) { // done is the function we run after it is done.
+    if (err) {
+      console.log('Error connecting to DB', err);
+      res.sendStatus(500);
+      done();
+    } else {
+      client.query( 'DELETE FROM books WHERE id = $1 ' ,  [req.params.id]  , function (err, result) {
+        if (err) {
+          console.log('error querying DB', err);
+          res.sendStatus(500);
+        } else {
+          console.log('deleted');
+          res.sendStatus(204); // 204 no content
+        }
+        done(); // gives the connection back to the db
+      });
+    };
+  });
+});
+
+
+
+
 module.exports = router;
