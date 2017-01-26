@@ -6,6 +6,9 @@ $(function(){
 
   // listen for a submit event on the form
   $('#book-form').on('submit', addBook);
+
+  $('#book-list').on('click','.save', updateBook);
+
 });
 
 function getBooks() {
@@ -52,8 +55,8 @@ function displayBooks(books) {
 
     $li.append($form);
     $('#book-list').append($li);
-
-    $('#book-list').on('click','.save', updateBook);
+    //
+    //
 
   });
 }
